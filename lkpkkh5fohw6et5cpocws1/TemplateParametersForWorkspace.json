@@ -19,6 +19,9 @@
 		},
 		"keyVaultLinkedservice_properties_typeProperties_baseUrl": {
 			"value": "@{concat('https://',linkedService().keyVaultName,'.vault.azure.net/')}"
+		},
+		"ContractSourceLS_properties_typeProperties_url": {
+			"value": "https://lkpkkh5fohw6et5cpoc.dfs.core.windows.net/"
 		}
 	}
 }

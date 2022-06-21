@@ -26,6 +26,10 @@
 		"keyVaultLinkedservice_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "@{concat('https://',linkedService().keyVaultName,'.vault.azure.net/')}"
+		},
+		"ContractSourceLS_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://lkpkkh5fohw6et5cpoc.dfs.core.windows.net/"
 		}
 	},
 	"variables": {
@@ -1220,7 +1224,11 @@
 						"dataFlowProperties": {
 							"computeType": "General",
 							"coreCount": 8,
-							"timeToLive": 0
+							"timeToLive": 0,
+							"cleanup": true
+						},
+						"pipelineExternalComputeScaleProperties": {
+							"timeToLive": 60
 						}
 					}
 				},
@@ -2275,6 +2283,155 @@
 				]
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/ContractSourceLS')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('ContractSourceLS_properties_typeProperties_url')]"
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/LoadContracts')]",
+			"type": "Microsoft.Synapse/workspaces/dataMappers",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/ContractSourceLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/LoadContracts_Contract_DataFlow')]",
+			"type": "Microsoft.Synapse/workspaces/dataflows",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "LoadContracts"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"linkedService": {
+								"referenceName": "ContractSourceLS",
+								"type": "LinkedServiceReference"
+							},
+							"name": "QueryDatSource"
+						}
+					],
+					"sinks": [
+						{
+							"name": "ContractSink"
+						}
+					],
+					"transformations": [
+						{
+							"name": "SelectContract"
+						}
+					],
+					"script": "source(output(\n\t\t{Sort_RecordTypeId.Name} as string,\n\t\t{Sort_Account__c.Name} as string,\n\t\tSort_Contract_Type__c as string,\n\t\tSort_Name as string,\n\t\tId as string,\n\t\tIsDeleted as boolean,\n\t\tName as string,\n\t\tRecordTypeId as string,\n\t\tCreatedDate as string,\n\t\tCreatedById as string,\n\t\tLastModifiedDate as string,\n\t\tLastModifiedById as string,\n\t\tSystemModstamp as string,\n\t\tLastActivityDate as string,\n\t\tLastViewedDate as string,\n\t\tLastReferencedDate as string,\n\t\tAccount__c as string,\n\t\tActivate_Contract__c as boolean,\n\t\tAmendment_Date__c as string,\n\t\tAmendment_Description__c as string,\n\t\tCMS_Admin_Approver__c as string,\n\t\tCMS_Request_ID__c as string,\n\t\tCMS_Request__c as string,\n\t\tCMU_ISN_Waiver_Comment__c as string,\n\t\tCancellation_Terms__c as string,\n\t\tCompany__c as string,\n\t\tConsent_Decree_CD_Contractor__c as boolean,\n\t\tContract_Comment__c as string,\n\t\tContract_Related_To__c as string,\n\t\tContract_Status_Date__c as string,\n\t\tContract_Status__c as string,\n\t\tContract_Type__c as string,\n\t\tCurent_Approval_Stage_Date__c as string,\n\t\tCurrent_Approval_Stage__c as string,\n\t\tDifferent_Company_Flag__c as string,\n\t\tDivision_Waiver_Approver__c as string,\n\t\tEffective_Date__c as string,\n\t\tExecuted_Contract_Attached__c as string,\n\t\tExecution_Date__c as string,\n\t\tExpiration_Date__c as string,\n\t\tISN_Approval_Stage_Date__c as string,\n\t\tISN_Approval_Stage__c as string,\n\t\tISN_Company_Id__c as string,\n\t\tISN_Contracts_Agreements_Status__c as string,\n\t\tISN_Dashboard_Grade__c as string,\n\t\tISN_Insurance_Status__c as string,\n\t\tISN_Requirements_Met__c as boolean,\n\t\tISN_Status_Date__c as string,\n\t\tISN_Status__c as string,\n\t\tISN_Waiver_Completed__c as boolean,\n\t\tISN_Waiver_Email_Attached__c as boolean,\n\t\tISN_Waiver_Required__c as boolean,\n\t\tInsurance_Approval_Stage_Date__c as string,\n\t\tInsurance_Approval_Stage__c as string,\n\t\tInsurance_Requirement_Met__c as boolean,\n\t\tInsurance_Status__c as string,\n\t\tInsurance_Waiver_Completed__c as boolean,\n\t\tInsurance_Waiver_Email_Attached__c as boolean,\n\t\tInsurance_Waiver_Required__c as boolean,\n\t\tLegacy_Company__c as string,\n\t\tLegacy_Contract_Number__c as string,\n\t\tLegacy_Division__c as string,\n\t\tLegacy_Requestor__c as string,\n\t\tLegal_Approved__c as boolean,\n\t\tLegal_Contact__c as string,\n\t\tLegal_L_Number__c as string,\n\t\tLegal_Notes__c as string,\n\t\tMatrix_Aircraft_Aviation_Liability__c as boolean,\n\t\tMatrix_Asbestos_Coverage__c as boolean,\n\t\tMatrix_Business_Auto_Liability__c as integer,\n\t\tMatrix_Commercial_Gen_Liability__c as integer,\n\t\tMatrix_Contract_Required__c as boolean,\n\t\tMatrix_Employer_Liability__c as integer,\n\t\tMatrix_Errors_Omissions_E_O__c as string,\n\t\tMatrix_Excess_Liability__c as integer,\n\t\tMatrix_ISN_Required__c as boolean,\n\t\tMatrix_Insurance_Required__c as boolean,\n\t\tMatrix_MCS_90__c as boolean,\n\t\tMatrix_Other_Insurance_Required_Value__c as string,\n\t\tMatrix_Other_Insurance_Required__c as boolean,\n\t\tMatrix_Pollution_Liability__c as short,\n\t\tMatrix_Professional_Liability__c as boolean,\n\t\tMatrix_Risk_Ranking__c as string,\n\t\tMatrix_Workers_Compensation__c as integer,\n\t\tMatrix_XCU_Endorsement_If_Digging__c as boolean,\n\t\tMatrix_XCU_Hazard_Endorsement__c as boolean,\n\t\tNotification_Terms__c as string,\n\t\tOn_Behalf_Of__c as string,\n\t\tOther_Work_Type__c as string,\n\t\tOverall_Contract_Status__c as string,\n\t\tPAA_Executed_By_Title__c as string,\n\t\tPAA_Executed_By__c as string,\n\t\tRegion_Waiver_Approver__c as string,\n\t\tRevision__c as boolean,\n\t\tStrategic_Sourcing_Contacted__c as boolean,\n\t\tStrategically_Sourced__c as boolean,\n\t\tAffiliate_CounterParty__c as boolean,\n\t\tTerm_Type__c as string,\n\t\tTmp_Contractor_Name__c as string,\n\t\tVersion_Number__c as string,\n\t\tWaiver_Approval_Stage__c as string,\n\t\tWaiver_Role_Hierarchy__c as string,\n\t\tWork_Type_Combined__c as string,\n\t\tWork_Type__c as string,\n\t\tXternal_CMS_Contract_ID__c as string,\n\t\tXternal_Record_Type_ID__c as string,\n\t\tUpcoming_Insurance_Expiration__c as string,\n\t\tSitePrefixURL__c as string,\n\t\tAccounting_Contract_Type__c as string,\n\t\tContact_Email__c as string,\n\t\tISN_Refresh__c as boolean,\n\t\tSend_CMS_Insurance_Expiration_Emails__c as string,\n\t\tMinimum_Expiration_Date_Insurance__c as string,\n\t\tAFE_Project__c as string,\n\t\tContract_Status_Notes__c as string,\n\t\tLocation__c as string,\n\t\tPipeline__c as string,\n\t\tAccounts_Payable_Number__c as string,\n\t\tAccounts_Receivable_Number__c as string,\n\t\tTracking_Alarm_Days_Left__c as boolean,\n\t\tActivation_Override_Notes__c as string,\n\t\tAnnual_cost__c as string,\n\t\tAssignment__c as string,\n\t\tCancellation_Date__c as string,\n\t\tChange_of_Control__c as string,\n\t\tDeficiency_Language__c as string,\n\t\tContract_Contact_Address__c as string,\n\t\tContract_Contact_City__c as string,\n\t\tContract_Contact_Email__c as string,\n\t\tContract_Contact_Fax__c as string,\n\t\tContract_Contact_Name__c as string,\n\t\tContract_Contact_Phone__c as string,\n\t\tContract_Contact_State__c as string,\n\t\tContract_Contact_Zip__c as string,\n\t\tContract_Notes__c as string,\n\t\tContract_Number__c as string,\n\t\tContract_Sub_Type_Notes__c as string,\n\t\tContract_Sub_Type__c as string,\n\t\tContractor_Type__c as string,\n\t\tCounterparty_Contract_Description__c as string,\n\t\tCounterparty_s_Amendment_Number__c as string,\n\t\tCountries_Services_Products__c as string,\n\t\tCountries_Where_Data_is_Stored__c as string,\n\t\tCurrent_Term_End_Date__c as string,\n\t\tDate_Stored_Outside_US_Canada__c as string,\n\t\tAccounting_End_Date__c as string,\n\t\tDodd_Frank_Trade_Option__c as boolean,\n\t\tEscalation_Alarm_Date__c as string,\n\t\tEscalation_Capped__c as string,\n\t\tEscalation_Date_Notes__c as string,\n\t\tEscalation_Decrease_Allowed__c as string,\n\t\tEscalation_Effective_Date__c as string,\n\t\tEscalation_Note__c as string,\n\t\tEthane_C2_Deduct__c as string,\n\t\tEthane_C2_Ethane_Rejection__c as string,\n\t\tEthane_C2_MAX_Recovery__c as string,\n\t\tEthane_C2_MIN_Recovery__c as string,\n\t\tEthane_C2_Notes__c as string,\n\t\tEthane_C2_Pricing_Mechanism__c as string,\n\t\tDesignation__c as string,\n\t\tFuel_Inlet_MMBTU_Deduct__c as string,\n\t\tFuel_Inlet_MMBTU_Ethane_Rejection__c as string,\n\t\tFuel_Inlet_MMBTU_MAX_Recovery__c as string,\n\t\tFuel_Inlet_MMBTU_MIN_Recovery__c as string,\n\t\tFuel_Inlet_MMBTU_Notes__c as string,\n\t\tFuel_Inlet_MMBTU_Pricing_Mechanism__c as string,\n\t\tFulfilled_Comments__c as string,\n\t\tFulfilled_Date__c as string,\n\t\tFulfilled__c as string,\n\t\tGain_Loss_Note__c as string,\n\t\tI_Butane_IC4_Deduct__c as string,\n\t\tI_Butane_IC4_Ethane_Rejection__c as string,\n\t\tI_Butane_IC4_MAX_Recovery__c as string,\n\t\tI_Butane_IC4_MIN_Recovery__c as string,\n\t\tI_Butane_IC4_Notes__c as string,\n\t\tI_Butane_IC4_Pricing_Mechanism__c as string,\n\t\tIndex_Note__c as string,\n\t\tIndex_Type__c as string,\n\t\tInvoice_Contact_Address__c as string,\n\t\tInvoice_Contact_City__c as string,\n\t\tInvoice_Contact_Email__c as string,\n\t\tInvoice_Contact_Fax__c as string,\n\t\tInvoice_Contact_Name__c as string,\n\t\tInvoice_Contact_Phone__c as string,\n\t\tInvoice_Contact_State__c as string,\n\t\tInvoice_Contact_Zip__c as string,\n\t\tLoss_Allowance__c as string,\n\t\tLoss_Percentage_Note__c as string,\n\t\tLoss_Percentage__c as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tformat: 'delimited',\n\tfileSystem: 'dlslkppocfs1',\n\tfolderPath: 'SourceFiles',\n\tfileName: 'QueryDataCMS.csv',\n\tcolumnDelimiter: ',',\n\tescapeChar: '\\\\',\n\tquoteChar: '\\\"',\n\tcolumnNamesAsHeader: true) ~> QueryDatSource\nQueryDatSource select(mapColumn(\n\t\tContractDescription = {Sort_Account__c.Name}\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: false) ~> SelectContract\nSelectContract sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tstore: 'synapse',\n\tdatabaseType: 'spark',\n\tformat: 'table',\n\tdatabase: 'OilGas_ajj',\n\ttableName: 'Contract',\n\tinput(\n\t\tContractId as integer,\n\t\tContractDescription as string,\n\t\tContractLegalReviewDate as date,\n\t\tContractSignedDate as date,\n\t\tContractEffectiveStartDate as date,\n\t\tContractEffectiveEndDate as date,\n\t\tContractPeriodMonths as integer,\n\t\tAutomaticRenewalIndicator as boolean,\n\t\tAutomaticRenewalNotificationPeriod as decimal(3,0),\n\t\tPrepaidContractIndicator as boolean,\n\t\tBankruptcyCondition as string,\n\t\tRevocationOfOfferBySellerCondition as string,\n\t\tTermsOfOfferConditions as string,\n\t\tRelapseOfReasonableTimeCondition as string,\n\t\tRejectionOfOfferByBuyerCondition as string,\n\t\tContractTypeId as integer,\n\t\tContractCategoryId as integer,\n\t\tIsoCurrencyCode as string,\n\t\tIsoLanguageId as integer,\n\t\tCustomerAccountId as long\n\t)) ~> ContractSink"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/ContractSourceLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/C0_LoadContracts')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "LoadContracts_Contract_DataFlow",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "LoadContracts_Contract_DataFlow",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"QueryDatSource": {},
+									"ContractSink": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"concurrency": 1,
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "LoadContracts"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/dataflows/LoadContracts_Contract_DataFlow')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/LoadContracts_StartingPipeline')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "C0_LoadContracts",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "C0_LoadContracts",
+								"type": "PipelineReference"
+							},
+							"parameters": {}
+						}
+					}
+				],
+				"concurrency": 1,
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "LoadContracts"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/pipelines/C0_LoadContracts')]"
+			]
 		}
 	]
 }
