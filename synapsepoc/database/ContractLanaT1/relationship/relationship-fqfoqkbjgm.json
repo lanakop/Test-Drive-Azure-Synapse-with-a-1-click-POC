@@ -1,0 +1,26 @@
+{
+	"name": "relationship-fqfoqkbjgm",
+	"properties": {
+		"Name": "relationship-fqfoqkbjgm",
+		"EntityType": "RELATIONSHIP",
+		"Namespace": {
+			"DatabaseName": "ContractLanaT1"
+		},
+		"Origin": {
+			"Type": "SPARK"
+		},
+		"FromTableName": "ContractType",
+		"ToTableName": "Contract",
+		"ColumnRelationshipInformations": [
+			{
+				"FromColumnName": "ContractTypeId",
+				"ToColumnName": "ContractTypeId"
+			}
+		],
+		"RelationshipType": 0,
+		"Properties": {
+			"DerivedModelRelationshipInfo": "{\"baseRelationship\":{\"fromEntity\":\"ContractType.cdm.json/ContractType\",\"toEntity\":\"Contract.cdm.json/Contract\",\"joinPairs\":[{\"fromAttribute\":\"ContractTypeId\",\"toAttribute\":\"ContractTypeId\"}]}}"
+		}
+	},
+	"type": "RELATIONSHIP"
+}

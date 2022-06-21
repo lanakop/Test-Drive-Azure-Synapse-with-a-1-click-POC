@@ -1,0 +1,24 @@
+{
+	"name": "ContractLanaT1",
+	"properties": {
+		"Name": "ContractLanaT1",
+		"EntityType": "DATABASE",
+		"Description": "",
+		"Origin": {
+			"Type": "SPARK"
+		},
+		"Properties": {
+			"DerivedModelDBInfo": "{\"ModelDirectives\":{\"BaseModel\":{\"Name\":\"OilGas\",\"Version\":\"0.1.0\"}}}",
+			"IsSyMSCDMDatabase": true
+		},
+		"Source": {
+			"Provider": "ADLS",
+			"Location": "abfss://dlslkppocfs1@lkpkkh5fohw6et5cpoc.dfs.core.windows.net/ContractLanaT1",
+			"Properties": {
+				"FormatType": "csv",
+				"LinkedServiceName": "lkpkkh5fohw6et5cpocws1-WorkspaceDefaultStorage"
+			}
+		}
+	},
+	"type": "DATABASE"
+}
