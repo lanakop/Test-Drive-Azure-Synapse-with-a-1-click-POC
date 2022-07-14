@@ -37,15 +37,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('workspaceName'), '/LoadContracts')]",
-			"type": "Microsoft.Synapse/workspaces/dataMappers",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/linkedServices/ContractSourceLS')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('workspaceName'), '/C0_LoadContracts')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -1484,6 +1475,26 @@
 					},
 					"currentConnection": {
 						"databaseName": "ContractLanaT1",
+						"poolName": "Built-in"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SQL script 3')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "-- This is auto-generated code\nSELECT TOP 100\n        JSON_VALUE (jsonContent, '$.Action') AS Action\n       , JSON_VALUE (jsonContent, '$.Price') AS ItemRevenue\n       , JSON_VALUE (jsonContent, '$.Country') AS Country\n       , JSON_VALUE (jsonContent, '$.Item') AS Item\n       , JSON_VALUE (jsonContent, '$.Year') AS Year\n       , jsonContent\nFROM\n    OPENROWSET(\n        BULK 'https://lkpkkh5fohw6et5cpoc.dfs.core.windows.net/cosmosdemo1/archivecosmosdata/data_2bee42f9-8a46-4450-901b-b8d1e20f0558_70729169-057e-4ab9-a1c2-0430abf949c2.json',\n        FORMAT = 'csv',\n        FIELDQUOTE = '0x0b',\n        FIELDTERMINATOR ='0x0b'\n    )\n    WITH (\n        jsonContent varchar(MAX) \n    ) AS rows\n\n\nSELECT TOP 100\n        JSON_VALUE (jsonContent, '$.Action') AS Action\n       , JSON_VALUE (jsonContent, '$.Price') AS ItemRevenue\n       , JSON_VALUE (jsonContent, '$.Country') AS Country\n       , JSON_VALUE (jsonContent, '$.Item') AS Item\n       , JSON_VALUE (jsonContent, '$.Year') AS Year\n       , jsonContent\nFROM\n    OPENROWSET(\n        BULK 'https://lkpkkh5fohw6et5cpoc.dfs.core.windows.net/cosmosdemo1/archivecosmosdata/data_2bee42f9-8a46-4450-901b-b8d1e20f0558_70729169-057e-4ab9-a1c2-0430abf949c2.json',\n        FORMAT = 'csv',\n        FIELDQUOTE = '0x0b',\n        FIELDTERMINATOR ='0x0b'\n    )\n    WITH (\n        jsonContent varchar(MAX) \n    ) AS rows\n\n\n",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "master",
 						"poolName": "Built-in"
 					},
 					"resultLimit": 5000
