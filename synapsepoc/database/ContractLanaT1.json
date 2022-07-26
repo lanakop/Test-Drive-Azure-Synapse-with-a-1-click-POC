@@ -13,10 +13,10 @@
 		},
 		"Source": {
 			"Provider": "ADLS",
-			"Location": "abfss://dlslkppocfs1@lkpkkh5fohw6et5cpoc.dfs.core.windows.net/ContractLanaT1",
+			"Location": "abfss://dlslkppocfs1@lkpkkh5fohw6et5cpoc.dfs.core.windows.net/ContractLanaT1/Contract",
 			"Properties": {
 				"FormatType": "csv",
-				"LinkedServiceName": "lkpkkh5fohw6et5cpocws1-WorkspaceDefaultStorage"
+				"LinkedServiceName": "ContractSourceLS"
 			}
 		}
 	},

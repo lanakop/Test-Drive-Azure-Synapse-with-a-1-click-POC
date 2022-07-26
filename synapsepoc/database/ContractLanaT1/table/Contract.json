@@ -16,10 +16,6 @@
 				{
 					"Name": "ContractId",
 					"Description": "The unique identifier of a Contract.",
-					"BaseAttributeReference": {
-						"Entity": "Contract.cdm.json/Contract",
-						"Name": "ContractId"
-					},
 					"OriginDataTypeName": {
 						"TypeName": "integer",
 						"IsComplexType": false,
@@ -27,15 +23,15 @@
 						"Properties": {
 							"HIVE_TYPE_STRING": "integer"
 						}
+					},
+					"BaseAttributeReference": {
+						"Entity": "Contract.cdm.json/Contract",
+						"Name": "ContractId"
 					}
 				},
 				{
 					"Name": "ContractDescription",
 					"Description": "The description of the contract.",
-					"BaseAttributeReference": {
-						"Entity": "Contract.cdm.json/Contract",
-						"Name": "ContractDescription"
-					},
 					"OriginDataTypeName": {
 						"TypeName": "string",
 						"IsComplexType": false,
@@ -44,15 +40,15 @@
 						"Properties": {
 							"HIVE_TYPE_STRING": "string"
 						}
+					},
+					"BaseAttributeReference": {
+						"Entity": "Contract.cdm.json/Contract",
+						"Name": "ContractDescription"
 					}
 				},
 				{
 					"Name": "ContractLegalReviewDate",
 					"Description": "The date that the legal review of the associated Contract was completed.",
-					"BaseAttributeReference": {
-						"Entity": "Contract.cdm.json/Contract",
-						"Name": "ContractLegalReviewDate"
-					},
 					"OriginDataTypeName": {
 						"TypeName": "date",
 						"IsComplexType": false,
@@ -61,15 +57,15 @@
 							"DateFormat": "YYYY-MM-DD",
 							"HIVE_TYPE_STRING": "date"
 						}
+					},
+					"BaseAttributeReference": {
+						"Entity": "Contract.cdm.json/Contract",
+						"Name": "ContractLegalReviewDate"
 					}
 				},
 				{
 					"Name": "ContractSignedDate",
 					"Description": "The date that the Contract was signed.",
-					"BaseAttributeReference": {
-						"Entity": "Contract.cdm.json/Contract",
-						"Name": "ContractSignedDate"
-					},
 					"OriginDataTypeName": {
 						"TypeName": "date",
 						"IsComplexType": false,
@@ -78,15 +74,15 @@
 							"DateFormat": "YYYY-MM-DD",
 							"HIVE_TYPE_STRING": "date"
 						}
+					},
+					"BaseAttributeReference": {
+						"Entity": "Contract.cdm.json/Contract",
+						"Name": "ContractSignedDate"
 					}
 				},
 				{
 					"Name": "ContractEffectiveStartDate",
 					"Description": "The date that the Contract goes into effect.",
-					"BaseAttributeReference": {
-						"Entity": "Contract.cdm.json/Contract",
-						"Name": "ContractEffectiveStartDate"
-					},
 					"OriginDataTypeName": {
 						"TypeName": "date",
 						"IsComplexType": false,
@@ -95,15 +91,15 @@
 							"DateFormat": "YYYY-MM-DD",
 							"HIVE_TYPE_STRING": "date"
 						}
+					},
+					"BaseAttributeReference": {
+						"Entity": "Contract.cdm.json/Contract",
+						"Name": "ContractEffectiveStartDate"
 					}
 				},
 				{
 					"Name": "ContractEffectiveEndDate",
 					"Description": "The date that the Contract is terminated or expires.",
-					"BaseAttributeReference": {
-						"Entity": "Contract.cdm.json/Contract",
-						"Name": "ContractEffectiveEndDate"
-					},
 					"OriginDataTypeName": {
 						"TypeName": "date",
 						"IsComplexType": false,
@@ -112,15 +108,15 @@
 							"DateFormat": "YYYY-MM-DD",
 							"HIVE_TYPE_STRING": "date"
 						}
+					},
+					"BaseAttributeReference": {
+						"Entity": "Contract.cdm.json/Contract",
+						"Name": "ContractEffectiveEndDate"
 					}
 				},
 				{
 					"Name": "ContractPeriodMonths",
 					"Description": "The number of months that the contract is to be in effect.",
-					"BaseAttributeReference": {
-						"Entity": "Contract.cdm.json/Contract",
-						"Name": "ContractPeriodMonths"
-					},
 					"OriginDataTypeName": {
 						"TypeName": "integer",
 						"IsComplexType": false,
@@ -128,15 +124,15 @@
 						"Properties": {
 							"HIVE_TYPE_STRING": "integer"
 						}
+					},
+					"BaseAttributeReference": {
+						"Entity": "Contract.cdm.json/Contract",
+						"Name": "ContractPeriodMonths"
 					}
 				},
 				{
 					"Name": "AutomaticRenewalIndicator",
 					"Description": "Indicates that the Contract is to be automatically renewed upon expiration.",
-					"BaseAttributeReference": {
-						"Entity": "Contract.cdm.json/Contract",
-						"Name": "AutomaticRenewalIndicator"
-					},
 					"OriginDataTypeName": {
 						"TypeName": "boolean",
 						"IsComplexType": false,
@@ -144,15 +140,15 @@
 						"Properties": {
 							"HIVE_TYPE_STRING": "boolean"
 						}
+					},
+					"BaseAttributeReference": {
+						"Entity": "Contract.cdm.json/Contract",
+						"Name": "AutomaticRenewalIndicator"
 					}
 				},
 				{
 					"Name": "AutomaticRenewalNotificationPeriod",
 					"Description": "The period in days in which the Contract holder is to be notified in advance that the Contract is due to expire.",
-					"BaseAttributeReference": {
-						"Entity": "Contract.cdm.json/Contract",
-						"Name": "AutomaticRenewalNotificationPeriod"
-					},
 					"OriginDataTypeName": {
 						"TypeName": "decimal",
 						"IsComplexType": false,
@@ -162,15 +158,15 @@
 						"Properties": {
 							"HIVE_TYPE_STRING": "decimal"
 						}
+					},
+					"BaseAttributeReference": {
+						"Entity": "Contract.cdm.json/Contract",
+						"Name": "AutomaticRenewalNotificationPeriod"
 					}
 				},
 				{
 					"Name": "PrepaidContractIndicator",
 					"Description": "Indicates that the Contract is prepaid by the Contract holder.",
-					"BaseAttributeReference": {
-						"Entity": "Contract.cdm.json/Contract",
-						"Name": "PrepaidContractIndicator"
-					},
 					"OriginDataTypeName": {
 						"TypeName": "boolean",
 						"IsComplexType": false,
@@ -178,15 +174,15 @@
 						"Properties": {
 							"HIVE_TYPE_STRING": "boolean"
 						}
+					},
+					"BaseAttributeReference": {
+						"Entity": "Contract.cdm.json/Contract",
+						"Name": "PrepaidContractIndicator"
 					}
 				},
 				{
 					"Name": "BankruptcyCondition",
 					"Description": "A description of the terms and conditions under which bankruptcy will affect or void the associated Contract or terms therein.",
-					"BaseAttributeReference": {
-						"Entity": "Contract.cdm.json/Contract",
-						"Name": "BankruptcyCondition"
-					},
 					"OriginDataTypeName": {
 						"TypeName": "string",
 						"IsComplexType": false,
@@ -195,15 +191,15 @@
 						"Properties": {
 							"HIVE_TYPE_STRING": "string"
 						}
+					},
+					"BaseAttributeReference": {
+						"Entity": "Contract.cdm.json/Contract",
+						"Name": "BankruptcyCondition"
 					}
 				},
 				{
 					"Name": "RevocationOfOfferBySellerCondition",
 					"Description": "A description of the condition(s) under which the Seller may revoke a tendered offer to provide or sell items under the associated Contract.",
-					"BaseAttributeReference": {
-						"Entity": "Contract.cdm.json/Contract",
-						"Name": "RevocationOfOfferBySellerCondition"
-					},
 					"OriginDataTypeName": {
 						"TypeName": "string",
 						"IsComplexType": false,
@@ -212,15 +208,15 @@
 						"Properties": {
 							"HIVE_TYPE_STRING": "string"
 						}
+					},
+					"BaseAttributeReference": {
+						"Entity": "Contract.cdm.json/Contract",
+						"Name": "RevocationOfOfferBySellerCondition"
 					}
 				},
 				{
 					"Name": "TermsOfOfferConditions",
 					"Description": "A description of the item offering terms provided by the Seller under the associated Contract.",
-					"BaseAttributeReference": {
-						"Entity": "Contract.cdm.json/Contract",
-						"Name": "TermsOfOfferConditions"
-					},
 					"OriginDataTypeName": {
 						"TypeName": "string",
 						"IsComplexType": false,
@@ -229,15 +225,15 @@
 						"Properties": {
 							"HIVE_TYPE_STRING": "string"
 						}
+					},
+					"BaseAttributeReference": {
+						"Entity": "Contract.cdm.json/Contract",
+						"Name": "TermsOfOfferConditions"
 					}
 				},
 				{
 					"Name": "RelapseOfReasonableTimeCondition",
 					"Description": "A description of the condition(s) under which the purchaser may void the terms of the contract due to the seller being unable to provide the items covered by the Contract.",
-					"BaseAttributeReference": {
-						"Entity": "Contract.cdm.json/Contract",
-						"Name": "RelapseOfReasonableTimeCondition"
-					},
 					"OriginDataTypeName": {
 						"TypeName": "string",
 						"IsComplexType": false,
@@ -246,15 +242,15 @@
 						"Properties": {
 							"HIVE_TYPE_STRING": "string"
 						}
+					},
+					"BaseAttributeReference": {
+						"Entity": "Contract.cdm.json/Contract",
+						"Name": "RelapseOfReasonableTimeCondition"
 					}
 				},
 				{
 					"Name": "RejectionOfOfferByBuyerCondition",
 					"Description": "A description of the conditions under which the buyer may reject items provided under offer by the Seller in connection with the associated  Contract.",
-					"BaseAttributeReference": {
-						"Entity": "Contract.cdm.json/Contract",
-						"Name": "RejectionOfOfferByBuyerCondition"
-					},
 					"OriginDataTypeName": {
 						"TypeName": "string",
 						"IsComplexType": false,
@@ -263,15 +259,15 @@
 						"Properties": {
 							"HIVE_TYPE_STRING": "string"
 						}
+					},
+					"BaseAttributeReference": {
+						"Entity": "Contract.cdm.json/Contract",
+						"Name": "RejectionOfOfferByBuyerCondition"
 					}
 				},
 				{
 					"Name": "ContractTypeId",
 					"Description": "The unique identifier of a Contract Type.",
-					"BaseAttributeReference": {
-						"Entity": "Contract.cdm.json/Contract",
-						"Name": "ContractTypeId"
-					},
 					"OriginDataTypeName": {
 						"TypeName": "integer",
 						"IsComplexType": false,
@@ -279,15 +275,15 @@
 						"Properties": {
 							"HIVE_TYPE_STRING": "integer"
 						}
+					},
+					"BaseAttributeReference": {
+						"Entity": "Contract.cdm.json/Contract",
+						"Name": "ContractTypeId"
 					}
 				},
 				{
 					"Name": "ContractCategoryId",
 					"Description": "The unique identifier of a contract category.",
-					"BaseAttributeReference": {
-						"Entity": "Contract.cdm.json/Contract",
-						"Name": "ContractCategoryId"
-					},
 					"OriginDataTypeName": {
 						"TypeName": "integer",
 						"IsComplexType": false,
@@ -295,15 +291,15 @@
 						"Properties": {
 							"HIVE_TYPE_STRING": "integer"
 						}
+					},
+					"BaseAttributeReference": {
+						"Entity": "Contract.cdm.json/Contract",
+						"Name": "ContractCategoryId"
 					}
 				},
 				{
 					"Name": "IsoCurrencyCode",
 					"Description": "The ISO 4217 currency code.",
-					"BaseAttributeReference": {
-						"Entity": "Contract.cdm.json/Contract",
-						"Name": "IsoCurrencyCode"
-					},
 					"OriginDataTypeName": {
 						"TypeName": "string",
 						"IsComplexType": false,
@@ -312,15 +308,15 @@
 						"Properties": {
 							"HIVE_TYPE_STRING": "string"
 						}
+					},
+					"BaseAttributeReference": {
+						"Entity": "Contract.cdm.json/Contract",
+						"Name": "IsoCurrencyCode"
 					}
 				},
 				{
 					"Name": "IsoLanguageId",
 					"Description": "The unique identifier of an ISO Language.",
-					"BaseAttributeReference": {
-						"Entity": "Contract.cdm.json/Contract",
-						"Name": "IsoLanguageId"
-					},
 					"OriginDataTypeName": {
 						"TypeName": "integer",
 						"IsComplexType": false,
@@ -328,15 +324,15 @@
 						"Properties": {
 							"HIVE_TYPE_STRING": "integer"
 						}
+					},
+					"BaseAttributeReference": {
+						"Entity": "Contract.cdm.json/Contract",
+						"Name": "IsoLanguageId"
 					}
 				},
 				{
 					"Name": "CustomerAccountId",
 					"Description": "The unique identifier of a Customer Account.",
-					"BaseAttributeReference": {
-						"Entity": "Contract.cdm.json/Contract",
-						"Name": "CustomerAccountId"
-					},
 					"OriginDataTypeName": {
 						"TypeName": "long",
 						"IsComplexType": false,
@@ -344,6 +340,10 @@
 						"Properties": {
 							"HIVE_TYPE_STRING": "long"
 						}
+					},
+					"BaseAttributeReference": {
+						"Entity": "Contract.cdm.json/Contract",
+						"Name": "CustomerAccountId"
 					}
 				}
 			],
@@ -353,7 +353,7 @@
 				"FormatType": "csv",
 				"SerializeLib": "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe",
 				"Properties": {
-					"path": "abfss://dlslkppocfs1@lkpkkh5fohw6et5cpoc.dfs.core.windows.net/ContractLanaT1/Contract",
+					"path": "abfss://dlslkppocfs1@lkpkkh5fohw6et5cpoc.dfs.core.windows.net/ContractLanaT1/Contract/Contract",
 					"delimiter": ",",
 					"multiLine": "false",
 					"firstRowAsHeader": "false",
@@ -366,9 +366,9 @@
 			},
 			"Source": {
 				"Provider": "ADLS",
-				"Location": "abfss://dlslkppocfs1@lkpkkh5fohw6et5cpoc.dfs.core.windows.net/ContractLanaT1/Contract",
+				"Location": "abfss://dlslkppocfs1@lkpkkh5fohw6et5cpoc.dfs.core.windows.net/ContractLanaT1/Contract/Contract",
 				"Properties": {
-					"LinkedServiceName": "lkpkkh5fohw6et5cpocws1-WorkspaceDefaultStorage",
+					"LinkedServiceName": "ContractSourceLS",
 					"LocationSetToDatabaseDefault": true
 				}
 			},
@@ -385,8 +385,7 @@
 			"Description": "A written agreement between two or more parties specifying the terms and conditions under which business obligations will be performed.",
 			"DisplayFolderInfo": "{\"name\":\"Contract\",\"colorCode\":\"#4B003F\"}",
 			"PrimaryKeys": "ContractId",
-			"spark.sql.sources.provider": "csv",
-			"sql:IsAppendOnly": false
+			"spark.sql.sources.provider": "csv"
 		},
 		"Retention": 0,
 		"Temporary": false,

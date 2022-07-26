@@ -16,10 +16,6 @@
 				{
 					"Name": "ContractTypeId",
 					"Description": "The unique identifier of a Contract Type.",
-					"BaseAttributeReference": {
-						"Entity": "ContractType.cdm.json/ContractType",
-						"Name": "ContractTypeId"
-					},
 					"OriginDataTypeName": {
 						"TypeName": "integer",
 						"IsComplexType": false,
@@ -27,15 +23,15 @@
 						"Properties": {
 							"HIVE_TYPE_STRING": "integer"
 						}
+					},
+					"BaseAttributeReference": {
+						"Entity": "ContractType.cdm.json/ContractType",
+						"Name": "ContractTypeId"
 					}
 				},
 				{
 					"Name": "ContractTypeName",
 					"Description": "The name of the Contract Type.",
-					"BaseAttributeReference": {
-						"Entity": "ContractType.cdm.json/ContractType",
-						"Name": "ContractTypeName"
-					},
 					"OriginDataTypeName": {
 						"TypeName": "string",
 						"IsComplexType": false,
@@ -44,15 +40,15 @@
 						"Properties": {
 							"HIVE_TYPE_STRING": "string"
 						}
+					},
+					"BaseAttributeReference": {
+						"Entity": "ContractType.cdm.json/ContractType",
+						"Name": "ContractTypeName"
 					}
 				},
 				{
 					"Name": "ContractTypeDescription",
 					"Description": "The description of the Contract Type.",
-					"BaseAttributeReference": {
-						"Entity": "ContractType.cdm.json/ContractType",
-						"Name": "ContractTypeDescription"
-					},
 					"OriginDataTypeName": {
 						"TypeName": "string",
 						"IsComplexType": false,
@@ -61,6 +57,10 @@
 						"Properties": {
 							"HIVE_TYPE_STRING": "string"
 						}
+					},
+					"BaseAttributeReference": {
+						"Entity": "ContractType.cdm.json/ContractType",
+						"Name": "ContractTypeDescription"
 					}
 				}
 			],
@@ -70,7 +70,7 @@
 				"FormatType": "csv",
 				"SerializeLib": "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe",
 				"Properties": {
-					"path": "abfss://dlslkppocfs1@lkpkkh5fohw6et5cpoc.dfs.core.windows.net/ContractLanaT1/ContractType",
+					"path": "abfss://dlslkppocfs1@lkpkkh5fohw6et5cpoc.dfs.core.windows.net/ContractLanaT1/Contract/ContractType",
 					"delimiter": ",",
 					"multiLine": "false",
 					"firstRowAsHeader": "false",
@@ -83,9 +83,9 @@
 			},
 			"Source": {
 				"Provider": "ADLS",
-				"Location": "abfss://dlslkppocfs1@lkpkkh5fohw6et5cpoc.dfs.core.windows.net/ContractLanaT1/ContractType",
+				"Location": "abfss://dlslkppocfs1@lkpkkh5fohw6et5cpoc.dfs.core.windows.net/ContractLanaT1/Contract/ContractType",
 				"Properties": {
-					"LinkedServiceName": "lkpkkh5fohw6et5cpocws1-WorkspaceDefaultStorage",
+					"LinkedServiceName": "ContractSourceLS",
 					"LocationSetToDatabaseDefault": true
 				}
 			},
@@ -102,8 +102,7 @@
 			"Description": "A categorization of Contracts based upon common characteristics, attributes or functions served.\n\nEx:\n- Sales\n- Service\n- Employment\n- Lease \n- Equipment Lease\n- Land Lease\n- Mineral Lease\n- Oil & Gas Lease\n- Leasehold Interest\n- Distributor\n- Financial\n- Security\n- Utilities\n- Royalty\n- Royalty Deed\n- Landowner's Royalty\n- Tenure\n- Turnkey\n- Joint Operating Agreement\n- Joint Venture Agreement\n- Drilling\n- Dry hole agreement\n- Farmout",
 			"DisplayFolderInfo": "{\"name\":\"Contract\",\"colorCode\":\"#4B003F\"}",
 			"PrimaryKeys": "ContractTypeId",
-			"spark.sql.sources.provider": "csv",
-			"sql:IsAppendOnly": false
+			"spark.sql.sources.provider": "csv"
 		},
 		"Retention": 0,
 		"Temporary": false,
