@@ -1544,6 +1544,26 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/SQL script 6')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "SELECT TOP (100) [ContractId]\n,[ContractDescription]\n,[ContractLegalReviewDate]\n,[ContractSignedDate]\n,[ContractEffectiveStartDate]\n,[ContractEffectiveEndDate]\n,[ContractPeriodMonths]\n,[AutomaticRenewalIndicator]\n,[AutomaticRenewalNotificationPeriod]\n,[PrepaidContractIndicator]\n,[BankruptcyCondition]\n,[RevocationOfOfferBySellerCondition]\n,[TermsOfOfferConditions]\n,[RelapseOfReasonableTimeCondition]\n,[RejectionOfOfferByBuyerCondition]\n,[ContractTypeId]\n,[ContractCategoryId]\n,[IsoCurrencyCode]\n,[IsoLanguageId]\n,[CustomerAccountId]\n FROM [ContractLanaT1].[dbo].[Contract]",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "ContractLanaT1",
+						"poolName": "Built-in"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/Data Exploration and ML Modeling - NYC taxi predict using Spark MLlib')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
@@ -2270,8 +2290,8 @@
 									"Properties": {
 										"path": "abfss://dlslkppocfs1@lkpkkh5fohw6et5cpoc.dfs.core.windows.net/ContractLanaT1/Contract/Contract",
 										"delimiter": ",",
-										"multiLine": "false",
 										"firstRowAsHeader": "false",
+										"multiLine": "false",
 										"serialization.format": "1",
 										"escape": "\\",
 										"quote": "\"",
@@ -2385,8 +2405,8 @@
 									"Properties": {
 										"path": "abfss://dlslkppocfs1@lkpkkh5fohw6et5cpoc.dfs.core.windows.net/ContractLanaT1/Contract/ContractType",
 										"delimiter": ",",
-										"multiLine": "false",
 										"firstRowAsHeader": "false",
+										"multiLine": "false",
 										"serialization.format": "1",
 										"escape": "\\",
 										"quote": "\"",
