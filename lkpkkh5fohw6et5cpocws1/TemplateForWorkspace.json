@@ -84,7 +84,8 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('workspaceId'), '/dataflows/LoadContracts_Contract_DataFlow')]"
+				"[concat(variables('workspaceId'), '/dataflows/LoadContracts_Contract_DataFlow')]",
+				"[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
 			]
 		},
 		{
@@ -1861,10 +1862,10 @@
 							},
 							"Source": {
 								"Provider": "ADLS",
-								"Location": "abfss://dlslkppocfs1@lkpkkh5fohw6et5cpoc.dfs.core.windows.net/ContractLanaT1",
+								"Location": "abfss://dlslkppocfs1@lkpkkh5fohw6et5cpoc.dfs.core.windows.net/ContractLanaT1/Contract",
 								"Properties": {
 									"FormatType": "csv",
-									"LinkedServiceName": "lkpkkh5fohw6et5cpocws1-WorkspaceDefaultStorage"
+									"LinkedServiceName": "ContractSourceLS"
 								}
 							}
 						},
@@ -2228,10 +2229,10 @@
 									"FormatType": "csv",
 									"SerializeLib": "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe",
 									"Properties": {
-										"path": "abfss://dlslkppocfs1@lkpkkh5fohw6et5cpoc.dfs.core.windows.net/ContractLanaT1/Contract",
+										"path": "abfss://dlslkppocfs1@lkpkkh5fohw6et5cpoc.dfs.core.windows.net/ContractLanaT1/Contract/Contract",
 										"delimiter": ",",
-										"firstRowAsHeader": "false",
 										"multiLine": "false",
+										"firstRowAsHeader": "false",
 										"serialization.format": "1",
 										"escape": "\\",
 										"quote": "\"",
@@ -2241,9 +2242,9 @@
 								},
 								"Source": {
 									"Provider": "ADLS",
-									"Location": "abfss://dlslkppocfs1@lkpkkh5fohw6et5cpoc.dfs.core.windows.net/ContractLanaT1/Contract",
+									"Location": "abfss://dlslkppocfs1@lkpkkh5fohw6et5cpoc.dfs.core.windows.net/ContractLanaT1/Contract/Contract",
 									"Properties": {
-										"LinkedServiceName": "lkpkkh5fohw6et5cpocws1-WorkspaceDefaultStorage",
+										"LinkedServiceName": "ContractSourceLS",
 										"LocationSetToDatabaseDefault": true
 									}
 								},
@@ -2343,10 +2344,10 @@
 									"FormatType": "csv",
 									"SerializeLib": "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe",
 									"Properties": {
-										"path": "abfss://dlslkppocfs1@lkpkkh5fohw6et5cpoc.dfs.core.windows.net/ContractLanaT1/ContractType",
+										"path": "abfss://dlslkppocfs1@lkpkkh5fohw6et5cpoc.dfs.core.windows.net/ContractLanaT1/Contract/ContractType",
 										"delimiter": ",",
-										"firstRowAsHeader": "false",
 										"multiLine": "false",
+										"firstRowAsHeader": "false",
 										"serialization.format": "1",
 										"escape": "\\",
 										"quote": "\"",
@@ -2356,9 +2357,9 @@
 								},
 								"Source": {
 									"Provider": "ADLS",
-									"Location": "abfss://dlslkppocfs1@lkpkkh5fohw6et5cpoc.dfs.core.windows.net/ContractLanaT1/ContractType",
+									"Location": "abfss://dlslkppocfs1@lkpkkh5fohw6et5cpoc.dfs.core.windows.net/ContractLanaT1/Contract/ContractType",
 									"Properties": {
-										"LinkedServiceName": "lkpkkh5fohw6et5cpocws1-WorkspaceDefaultStorage",
+										"LinkedServiceName": "ContractSourceLS",
 										"LocationSetToDatabaseDefault": true
 									}
 								},
@@ -2460,6 +2461,26 @@
 			"type": "Microsoft.Synapse/workspaces/managedVirtualNetworks",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SQL script 4')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "SELECT TOP (100) [ContractId]\n,[ContractDescription]\n,[ContractLegalReviewDate]\n,[ContractSignedDate]\n,[ContractEffectiveStartDate]\n,[ContractEffectiveEndDate]\n,[ContractPeriodMonths]\n,[AutomaticRenewalIndicator]\n,[AutomaticRenewalNotificationPeriod]\n,[PrepaidContractIndicator]\n,[BankruptcyCondition]\n,[RevocationOfOfferBySellerCondition]\n,[TermsOfOfferConditions]\n,[RelapseOfReasonableTimeCondition]\n,[RejectionOfOfferByBuyerCondition]\n,[ContractTypeId]\n,[ContractCategoryId]\n,[IsoCurrencyCode]\n,[IsoLanguageId]\n,[CustomerAccountId]\n FROM [ContractLanaT1].[dbo].[Contract]",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "ContractLanaT1",
+						"poolName": "Built-in"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
 			"dependsOn": []
 		}
 	]
