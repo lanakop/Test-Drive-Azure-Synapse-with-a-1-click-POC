@@ -8,7 +8,13 @@
 		"CosmosDbeHealth_connectionString": {
 			"value": ""
 		},
+		"EHealthCosmosDBimmunizations_connectionString": {
+			"value": ""
+		},
 		"TripFaresSynapseAnalyticsLinkedService_connectionString": {
+			"value": ""
+		},
+		"eHealthImmunizationsTarget_accountKey": {
 			"value": ""
 		},
 		"eHelathImmunizationSourceDaata_accountKey": {
@@ -25,6 +31,9 @@
 		},
 		"TripFaresDataLakeStorageLinkedService_properties_typeProperties_url": {
 			"value": "@{concat('https://',linkedService().datalakeAccountName,'.dfs.core.windows.net')}"
+		},
+		"eHealthImmunizationsTarget_properties_typeProperties_url": {
+			"value": "https://lkpkkh5fohw6et5cpoc.dfs.core.windows.net/"
 		},
 		"eHelathImmunizationSourceDaata_properties_typeProperties_url": {
 			"value": "https://lkpkkh5fohw6et5cpoc.dfs.core.windows.net/"
