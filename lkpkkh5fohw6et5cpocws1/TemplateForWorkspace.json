@@ -7,9 +7,17 @@
 			"metadata": "Workspace name",
 			"defaultValue": "lkpkkh5fohw6et5cpocws1"
 		},
+		"CosmosDbeHealth_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'CosmosDbeHealth'"
+		},
 		"TripFaresSynapseAnalyticsLinkedService_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'TripFaresSynapseAnalyticsLinkedService'"
+		},
+		"eHelathImmunizationSourceDaata_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'eHelathImmunizationSourceDaata'"
 		},
 		"ContractSourceLS_properties_typeProperties_url": {
 			"type": "string",
@@ -26,6 +34,10 @@
 		"TripFaresDataLakeStorageLinkedService_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "@{concat('https://',linkedService().datalakeAccountName,'.dfs.core.windows.net')}"
+		},
+		"eHelathImmunizationSourceDaata_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://lkpkkh5fohw6et5cpoc.dfs.core.windows.net/"
 		},
 		"keyVaultLinkedservice_properties_typeProperties_baseUrl": {
 			"type": "string",
@@ -119,6 +131,79 @@
 			},
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/pipelines/C0_LoadContracts')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/PopulateImmunizations')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy_b01",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "cosmosdemo1/sampledata/dev_immunizations.json"
+							},
+							{
+								"name": "Destination",
+								"value": "immunizations"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": false,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "CosmosDbSqlApiSink",
+								"writeBehavior": "insert"
+							},
+							"enableStaging": false,
+							"validateDataConsistency": false
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceDataset_b01",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DestinationDataset_b01",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/SourceDataset_b01')]",
+				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_b01')]"
 			]
 		},
 		{
@@ -759,6 +844,514 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_b01')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "CosmosDbeHealth",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "CosmosDbSqlApiCollection",
+				"schema": {},
+				"typeProperties": {
+					"collectionName": "immunizations"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/CosmosDbeHealth')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SourceDataset_b01')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "eHelathImmunizationSourceDaata",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "dev_immunizations.json",
+						"folderPath": "sampledata",
+						"fileSystem": "cosmosdemo1"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"resourceType": {
+							"type": "string"
+						},
+						"id": {
+							"type": "string"
+						},
+						"meta": {
+							"type": "object",
+							"properties": {
+								"versionId": {
+									"type": "integer"
+								},
+								"lastUpdated": {
+									"type": "string"
+								},
+								"tag": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"system": {
+												"type": "string"
+											},
+											"code": {
+												"type": "string"
+											}
+										}
+									}
+								},
+								"security": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"system": {
+												"type": "string"
+											},
+											"code": {
+												"type": "string"
+											},
+											"display": {
+												"type": "string"
+											}
+										}
+									}
+								}
+							}
+						},
+						"text": {
+							"type": "object",
+							"properties": {
+								"status": {
+									"type": "string"
+								},
+								"div": {
+									"type": "string"
+								}
+							}
+						},
+						"identifier": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"system": {
+										"type": "string"
+									},
+									"value": {
+										"type": "string"
+									}
+								}
+							}
+						},
+						"status": {
+							"type": "string"
+						},
+						"notGiven": {
+							"type": "boolean"
+						},
+						"vaccineCode": {
+							"type": "object",
+							"properties": {
+								"coding": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"system": {
+												"type": "string"
+											},
+											"code": {
+												"type": "string"
+											}
+										}
+									}
+								},
+								"text": {
+									"type": "string"
+								}
+							}
+						},
+						"patient": {
+							"type": "object",
+							"properties": {
+								"reference": {
+									"type": "string"
+								},
+								"display": {
+									"type": "string"
+								}
+							}
+						},
+						"encounter": {
+							"type": "object",
+							"properties": {
+								"reference": {
+									"type": "string"
+								},
+								"identifier": {
+									"type": "object",
+									"properties": {
+										"system": {
+											"type": "string"
+										},
+										"value": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						},
+						"date": {
+							"type": "string"
+						},
+						"_dateDTO": {
+							"type": "string"
+						},
+						"primarySource": {
+							"type": "boolean"
+						},
+						"location": {
+							"type": "object",
+							"properties": {
+								"reference": {
+									"type": "string"
+								},
+								"display": {
+									"type": "string"
+								}
+							}
+						},
+						"manufacturer": {
+							"type": "object",
+							"properties": {
+								"reference": {
+									"type": "string"
+								},
+								"display": {
+									"type": "string"
+								},
+								"identifier": {
+									"type": "object",
+									"properties": {
+										"system": {
+											"type": "string"
+										},
+										"value": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						},
+						"lotNumber": {
+							"type": "string"
+						},
+						"expirationDate": {
+							"type": "string"
+						},
+						"_expirationDateDT": {
+							"type": "string"
+						},
+						"site": {
+							"type": "object",
+							"properties": {
+								"coding": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"system": {
+												"type": "string"
+											},
+											"code": {
+												"type": "string"
+											},
+											"display": {
+												"type": "string"
+											}
+										}
+									}
+								}
+							}
+						},
+						"route": {
+							"type": "object",
+							"properties": {
+								"coding": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"system": {
+												"type": "string"
+											},
+											"code": {
+												"type": "string"
+											},
+											"display": {
+												"type": "string"
+											}
+										}
+									}
+								}
+							}
+						},
+						"doseQuantity": {
+							"type": "object",
+							"properties": {
+								"value": {
+									"type": "number"
+								},
+								"system": {
+									"type": "string"
+								},
+								"code": {
+									"type": "string"
+								},
+								"unit": {
+									"type": "string"
+								}
+							}
+						},
+						"practitioner": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"role": {
+										"type": "object",
+										"properties": {
+											"coding": {
+												"type": "array",
+												"items": {
+													"type": "object",
+													"properties": {
+														"system": {
+															"type": "string"
+														},
+														"code": {
+															"type": "string"
+														}
+													}
+												}
+											}
+										}
+									},
+									"actor": {
+										"type": "object",
+										"properties": {
+											"reference": {
+												"type": "string"
+											}
+										}
+									}
+								}
+							}
+						},
+						"note": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"text": {
+										"type": "string"
+									}
+								}
+							}
+						},
+						"explanation": {
+							"type": "object",
+							"properties": {
+								"reason": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"coding": {
+												"type": "array",
+												"items": {
+													"type": "object",
+													"properties": {
+														"system": {
+															"type": "string"
+														},
+														"code": {
+															"type": "string"
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						},
+						"vaccinationProtocol": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"doseSequence": {
+										"type": "integer"
+									},
+									"description": {
+										"type": "string"
+									},
+									"authority": {
+										"type": "object",
+										"properties": {
+											"reference": {
+												"type": "string"
+											},
+											"display": {
+												"type": "string"
+											}
+										}
+									},
+									"series": {
+										"type": "string"
+									},
+									"seriesDoses": {
+										"type": "integer"
+									},
+									"targetDisease": {
+										"type": "array",
+										"items": {
+											"type": "object",
+											"properties": {
+												"coding": {
+													"type": "array",
+													"items": {
+														"type": "object",
+														"properties": {
+															"system": {
+																"type": "string"
+															},
+															"code": {
+																"type": "string"
+															}
+														}
+													}
+												}
+											}
+										}
+									},
+									"doseStatus": {
+										"type": "object",
+										"properties": {
+											"coding": {
+												"type": "array",
+												"items": {
+													"type": "object",
+													"properties": {
+														"system": {
+															"type": "string"
+														},
+														"code": {
+															"type": "string"
+														},
+														"display": {
+															"type": "string"
+														}
+													}
+												}
+											}
+										}
+									},
+									"doseStatusReason": {
+										"type": "object",
+										"properties": {
+											"coding": {
+												"type": "array",
+												"items": {
+													"type": "object",
+													"properties": {
+														"system": {
+															"type": "string"
+														},
+														"code": {
+															"type": "string"
+														},
+														"display": {
+															"type": "string"
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						},
+						"_etag": {
+							"type": "string"
+						},
+						"_active": {
+							"type": "boolean"
+						},
+						"_pkey": {
+							"type": "string"
+						},
+						"_docId": {
+							"type": "string"
+						},
+						"_rid": {
+							"type": "string"
+						},
+						"_self": {
+							"type": "string"
+						},
+						"_attachments": {
+							"type": "string"
+						},
+						"_ts": {
+							"type": "integer"
+						},
+						"reaction": {
+							"type": "array"
+						},
+						"reportOrigin": {
+							"type": "object",
+							"properties": {
+								"coding": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"code": {
+												"type": "string"
+											},
+											"display": {
+												"type": "string"
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/eHelathImmunizationSourceDaata')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/azureSynapseAnalyticsSchema')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -1153,6 +1746,25 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/CosmosDbeHealth')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"annotations": [],
+				"type": "CosmosDb",
+				"typeProperties": {
+					"connectionString": "[parameters('CosmosDbeHealth_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/HttpServerTripDataLinkedService')]",
 			"type": "Microsoft.Synapse/workspaces/linkedServices",
 			"apiVersion": "2019-06-01-preview",
@@ -1296,6 +1908,29 @@
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]",
 				"[concat(variables('workspaceId'), '/linkedServices/keyVaultLinkedservice')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/eHelathImmunizationSourceDaata')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('eHelathImmunizationSourceDaata_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('eHelathImmunizationSourceDaata_accountKey')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
 			]
 		},
 		{
