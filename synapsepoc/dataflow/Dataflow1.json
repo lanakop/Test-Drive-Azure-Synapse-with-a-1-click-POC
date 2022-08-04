@@ -13,7 +13,11 @@
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "flatten1"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          resourceType as string,",
@@ -49,7 +53,21 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     format: 'document') ~> cosmosdb"
+				"     format: 'document') ~> cosmosdb",
+				"cosmosdb foldDown(unroll(meta.tag, meta.tag),",
+				"     mapColumn(",
+				"          resourceType,",
+				"          metatagsystem = meta.tag.system,",
+				"          metatagcode = meta.tag.code,",
+				"          versionId = meta.versionId,",
+				"          lastUpdated = meta.lastUpdated,",
+				"          status,",
+				"          notGiven,",
+				"          {_docId},",
+				"          security = meta.security",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flatten1"
 			]
 		}
 	}
